@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Cloning') {
             steps {
-                git branch: 'devops' , url: 'git@github.com:Mustafaa8/nodejs.org-devops-pipeline.git' , credentialsId: 'gittoken'
+                git branch: 'devops' , url: 'https://github.com/Mustafaa8/nodejs.org-devops-pipeline.git'
             }
         }
         stage('Unit Testing') {
@@ -13,6 +13,10 @@ pipeline {
                 npm ci
                 npm test
                 '''
+            }
+        }
+        stage('Docker Image Building'){
+            steps {
             }
         }
     }
