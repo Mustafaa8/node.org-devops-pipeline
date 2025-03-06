@@ -15,9 +15,6 @@ pipeline {
                 '''
             }
         }
-        stage('Docker Image Building'){
-            steps {
-            }
-        }
+
     }
 }
