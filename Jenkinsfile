@@ -10,6 +10,7 @@ pipeline {
         stage('Unit Testing') {
             steps {
                 sh '''
+                export PATH=$HOME/.nvm/versions/node/v18.16.1/bin:$PATH && node -v && npm -v
                 npm ci
                 npm test
                 '''
