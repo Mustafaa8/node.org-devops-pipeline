@@ -9,14 +9,20 @@ pipeline {
                 git branch: 'devops' , url: 'https://github.com/Mustafaa8/nodejs.org-devops-pipeline.git' , credentialsId: 'gittoken'
             }
         }
-        stage('Unit Testing') {
+        stage('Linting the Code') {
             steps {
                 sh '''
                 npm ci
+                npm run format
+                '''
+            }
+        }
+        stage('Unit Testing') {
+            steps {
+                sh '''
                 npm test
                 '''
             }
         }
-
     }
 }
