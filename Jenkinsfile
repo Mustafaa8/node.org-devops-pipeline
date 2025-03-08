@@ -28,7 +28,7 @@ pipeline {
             steps {
                 sh '''
                 docker run --rm -v /var/run/docker.sock:/var/run/docker.sock \
-                -v $(pwd):output aquasec/trivy fs . > ./reports/fs_report
+                -v $(pwd):output aquasec/trivy fs .
                 '''
             }
         }
