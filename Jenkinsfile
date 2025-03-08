@@ -26,7 +26,7 @@ pipeline {
         }
         stage('Codebase Scanning'){
             steps {
-                sh 'docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v ./:/output aquasec/trivy fs .'
+                sh 'docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v ./:/output -w /output aquasec/trivy fs .'
             }
         }
 
