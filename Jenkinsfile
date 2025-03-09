@@ -48,9 +48,7 @@ pipeline {
         stage('Docker Image Scanning') {
             steps {
                 sh '''
-                docker run -v /var/run/docker.sock:/var/run/docker.sock \ 
-                -v ./:/output \ 
-                -w /output aquasec/trivy image ${IMAGE_NAME}:${IMAGE_TAG}
+                docker run -v /var/run/docker.sock:/var/run/docker.sock -v ./:/output -w /output aquasec/trivy image ${IMAGE_NAME}:${IMAGE_TAG}
                 '''
             }
         }
