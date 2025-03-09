@@ -16,7 +16,7 @@ pipeline {
         stage('Linting the Code') {
             steps {
                 sh '''
-                npm ci
+                npm install
                 npm run format
                 '''
             }
