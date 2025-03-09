@@ -34,3 +34,7 @@ tsconfig.tsbuildinfo
 dist/
 
 .gitignore
+loadBalancer/
+prometheus/
+compose/
+kubernetes/
