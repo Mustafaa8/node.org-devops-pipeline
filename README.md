@@ -1,124 +1,57 @@
-<p align="center">
-  <br />
-  <a href="https://nodejs.org">
-    <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="https://nodejs.org/static/logos/nodejsLight.svg">
-      <img src="https://nodejs.org/static/logos/nodejsDark.svg" width="200px">
-    </picture>
-  </a>
-</p>
+## Node.org DevOps Pipeline
 
-<p align="center">
-  <a href="https://nodejs.org">Node.js</a> Website built using Next.js with TypeScript, CSS Modules/Tailwind, and MDXv3
-</p>
+This project showcases a Node.js application integrated with a Jenkins pipeline. The pipeline automates the processes of building, testing, and deploying the application, ensuring efficient and reliable software delivery. Deployment is handled using Docker Compose
 
-<p align="center">
-  <a title="MIT License" href="LICENSE">
-    <img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT License" />
-  </a>
-  <a title="Localised" href="https://crowdin.com/project/nodejs-web">
-    <img src="https://badges.crowdin.net/nodejs-web/localized.svg" alt="Crowdin Badge" />
-  </a>
-  <a title="Vercel" href="https://vercel.com">
-    <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="https://img.shields.io/badge/powered%20by-Vercel%20%E2%96%B2-white">
-      <img src="https://img.shields.io/badge/powered%20by-Vercel%20%E2%96%B2-black" alt="Powered by Vercel">
-    </picture>
-  </a>
-  <br />
-  <img src="https://github.com/nodejs/nodejs.org/actions/workflows/build.yml/badge.svg" alt="Build and Analysis Checks" />
-  <a title="scorecard" href="https://securityscorecards.dev/viewer/?uri=github.com/nodejs/nodejs.org">
-    <img src="https://api.securityscorecards.dev/projects/github.com/nodejs/nodejs.org/badge" alt="nodejs.org scorecard badge" />
-  </a>
-  <br />
-  <br />
-</p>
+### Features
 
-## What is this repo?
+- Automated Builds: The pipeline automatically installs dependencies and builds the application upon code commits.
+- Automated Testing: Executes unit and integration tests to validate code changes.
+- Containerized Deployment: Uses Docker Compose to deploy the application.
+- Continuous Deployment: Automatically deploys the latest version of the application.
 
-[Nodejs.org](https://nodejs.org/) by the [OpenJS Foundation](https://openjsf.org/) is the official website for the Node.js® JavaScript runtime. This repo is the source code for the website. It is built using [Next.js](https://nextjs.org), a React Framework.
+### Prerequisites
 
-```bash
-npm ci
-npm run dev
+- **Node.js**
+- **Jenkins**
+- **Docker**
 
-# listening at localhost:3000
-```
+### Pipeline Summary
 
-## Contributing
+![Pipeline(2)](https://github.com/user-attachments/assets/01d1b387-114c-4e9a-accb-23b3555f1bf5)
 
-This project adopts the Node.js [Code of Conduct][].
+#### Stages
+1. Cloning the repo
+2. using `eslint` to lint the code for errors and style
+3. unit testing the code
+4. using `trivy` to scan code for vulnerabilities
+5. Building Docker image and push it into docker hub
+6. using `trivy` to scan the created image
+7. starting the docker compose
 
-Any person who wants to contribute to the Website is welcome! Please read [Contribution Guidelines][] and see the [Figma Design][] to understand better the structure of this repository.
+#### Compose
 
-> \[!IMPORTANT]\
-> Please read our [Translation Guidelines][] before contributing to Translation and Localization of the Website
+the compose file consists of 5 containers
+1. two container the runs the web app
+2. nginx container to work as a load balancer
+3. cAdvisor to generate the matrices for containers
+4. prometheus container to store and get data from cAdvisor
 
-> \[!NOTE]\
-> We recommend a read of all Relevant Links below before doing code changes; Including Dependency changes, Content changes, and Code changes.
+### Screenshots
 
-### Deployment
+- the web app working on port 80 (which nginx are configured to work on)
+![node1](https://github.com/user-attachments/assets/63e9e962-d386-4dfe-8024-6edfa886ff36)
 
-The Website is automatically deployed to [Vercel](https://vercel.com) through its GitHub App integration when new pushes happen on the `main` branch.
+- matrices genereate by cAdvisor Stored using prometheus and visualized using grafana
+![node2](https://github.com/user-attachments/assets/e0597e30-f938-4998-9cdb-dccd011ccea9)
 
-Details regarding the deployment are only accessible to the maintainers of the Website Team due to certain limitations.
+- Docker Compose containers
+![node3](https://github.com/user-attachments/assets/cff06fbf-aee2-4f4c-b490-99fede194500)
 
-The current integration is owned by the OpenJS Foundation and managed by the Website Team.
 
-<details>
-  <summary>Legacy Deployment</summary>
+### Contributing
 
-The full setup is in <https://github.com/nodejs/build/tree/master/ansible/www-standalone> minus secrets and certificates.
+Contributions are welcome! Please fork this repository and submit a pull request for any enhancements or bug fixes.
 
-The webhook is set up on GitHub for this project and talks to a small Node server on the host, which does the work. See the [github-webhook](https://github.com/rvagg/github-webhook) package for this.
+### License
 
-</details>
-
-## Node.js Binaries & API Docs
-
-This repository does not contain the codebase or related infrastructure that serves `https://nodejs.org/api/`, `https://nodejs.org/docs/` or `https://nodejs.org/dist/`.
-
-These are maintained in different repositories and we urge users to open **issues in their respective repositories**, for bug reports, feature requests or any matter related to these endpoints.
-
-- [`release-cloudflare-worker`](https://github.com/nodejs/release-cloudflare-worker): The codebase responsible for serving the Node.js Distribution Binaries, API Docs and any other assets from the links mentioned above.
-  - We use Cloudflare R2 Buckets for storing our Assets and Cloudflare Workers for serving these Assets to the Web.
-- [`node/doc/api`](https://github.com/nodejs/node/tree/main/doc/api): The source code of our API docs, it contains all the Node.js API Documentation Markdown files
-  - [`node/doc`](https://github.com/nodejs/node/tree/main/doc) contains the HTML templates, CSS styles and JavaScript code that runs on the client-side of our API Docs generated pages.
-  - [`node/tools/doc`](https://github.com/nodejs/node/tree/main/tools/doc) contains the tooling that validates, lints, builds and compiles our API Docs. Also responsible for generating what you see when accessing `https://nodejs.org/api/`.
-
-## Relevant Links
-
-[Code of Conduct][]
-
-[Contribution Guidelines][]
-
-[Collaborator Guide][]
-
-[Figma Design][]
-
-[Content vs Code][]
-
-[Dependency Pinning][]
-
-[Translation Guidelines][]
-
-[Status Page](https://status.nodejs.org/) of the Node.js web infrastructure.
-
-## Thanks
-
-- Thanks to all contributors and collaborators that make this project possible.
-- Thanks to [Chromatic](https://www.chromatic.com/) for providing the visual testing platform that helps us review UI changes and catch visual regressions.
-- Thanks to [Vercel](https://www.vercel.com/) for providing the infrastructure that serves and powers the Node.js Website
-- Thanks to [Cloudflare](https://cloudflare.com) for providing the infrastructure that serves Node.js's Website, Node.js's CDN and more.
-  - A really warm thank you to Cloudflare as we would not be able to serve our community without their immense support.
-- Thanks to [Sentry](https://sentry.io/welcome/) for providing an open source license for their error reporting, monitoring and diagnostic tools.
-- Thanks to [Crowdin](https://crowdin.com/) for providing a platform that allows us to localize the Node.js Website and collaborate with translators.
-- Thanks to [Orama](https://docs.oramasearch.com/) for providing a search platform that indexes our expansive content and provides lightning-fast results for our users.
-
-[code of conduct]: https://github.com/nodejs/admin/blob/main/CODE_OF_CONDUCT.md
-[contribution guidelines]: https://github.com/nodejs/nodejs.org/blob/main/CONTRIBUTING.md
-[content vs code]: https://github.com/nodejs/nodejs.org/blob/main/CONTENT_VS_CODE.md
-[dependency pinning]: https://github.com/nodejs/nodejs.org/blob/main/DEPENDENCY_PINNING.md
-[collaborator guide]: https://github.com/nodejs/nodejs.org/blob/main/COLLABORATOR_GUIDE.md
-[figma design]: https://www.figma.com/file/pu1vZPqNIM7BePd6W8APA5/Node.js
-[translation guidelines]: https://github.com/nodejs/nodejs.org/blob/main/TRANSLATION.md
+This project is licensed under the MIT License. 
