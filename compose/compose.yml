@@ -22,7 +22,7 @@ services:
     ports:
       - '80:80'
     volumes:
-      - ./loadBalancer/nginx.conf:/etc/nginx/nginx.conf
+      - ../loadBalancer/nginx.conf:/etc/nginx/nginx.conf
     depends_on:
       - app1
       - app2
@@ -32,7 +32,7 @@ services:
     image: prom/prometheus
     restart: always
     volumes:
-      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ../prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
     ports:
       - '9090:9090'
     networks:
