@@ -1,7 +1,9 @@
-FROM node:latest AS builder
+FROM node:latest
 WORKDIR /app
 COPY . .
-RUN npm ci && npm run builder
+RUN npm install && npm run build
+EXPOSE 3000
+ENTRYPOINT [ "npm" ]
+CMD [ "start" ]
 
-FROM node:latest AS runner
-WORKDIR /artifact
+
