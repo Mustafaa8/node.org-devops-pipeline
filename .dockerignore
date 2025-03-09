@@ -1,5 +1,5 @@
 # Commonly ignored Node.js files
-#node_modules
+node_modules
 npm-debug.log
 .npm
 .env.*

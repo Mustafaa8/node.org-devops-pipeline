@@ -53,7 +53,7 @@ pipeline {
         }
         stage('Docker Composing') {
             steps {
-                sh 'docker compose -f ./compose/compose.yml up'
+                sh 'docker compose -f ./compose/compose.yml up -d'
             }
         }
     }
