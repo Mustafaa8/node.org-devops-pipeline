@@ -41,7 +41,6 @@ pipeline {
             withCredentials([usernamePassword(credentialsId: 'docker-cred' , usernameVariable: 'DOCKER_USER' , passwordVariable: 'DOCKER_PASS' )]) {
                 sh 'echo "${DOCKER_PASS}" | docker login -u ${DOCKER_USER} --password-stdin'
                 sh 'docker push ${IMAGE_NAME}:${IMAGE_TAG}'
-                sh 'docker rmi ${IMAGE_NAME}:${IMAGE_TAG}'
                 sh 'docker logout'
             }
         }}
@@ -50,6 +49,11 @@ pipeline {
                 sh '''
                 docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v ./:/output -w /output aquasec/trivy image ${IMAGE_NAME}:${IMAGE_TAG}
                 '''
+            }
+        }
+        stage('Docker Composing') {
+            steps {
+                sh 'docker compose -f ./compose/compose.yml up'
             }
         }
     }
